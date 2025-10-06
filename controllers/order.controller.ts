@@ -67,4 +67,40 @@ export const createOrder = async (req: AuthRequest, res: Response) => {
   }
 };
 
+export const getOrders = async (req: AuthRequest, res: Response) => {
+  try {
+    let orders;
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    if (user.role === "user") {
+      orders = await Order.find({ customer: req.userId })
+        .populate("products.product", "title price")
+        .populate("vendors", "fullName email");
+    } else if (user.role === "vendor") {
+      orders = await Order.find({ vendors: req.userId })
+        .populate("products.product", "title price")
+        .populate("customer", "fullName email");
+    } else if (user.role === "admin") {
+      orders = await Order.find()
+        .populate("products.product", "title price")
+        .populate("customer vendors", "fullName email");
+    } else {
+      return res.status(403).json({ success: false, message: "Not authorized" });
+    }
+
+    res.status(200).json({
+      success: true,
+      count: orders.length,
+      message: orders.length === 0 ? "No order yet!" : undefined,
+      orders,
+    });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
