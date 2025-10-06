@@ -1,21 +1,11 @@
 import express, { Router } from "express";
-import { isAuthed } from "../middlewares/isAuthed.js";
-import {
-  acceptVendorRequest,
-  firebaseLogin,
-  getAllVendor,
-  login,
-  logout,
-  register,
-  removeVendor,
-  requestForVendor,
-} from "../controllers/user.controller.js";
-import { isAdmin, isUser } from "../middlewares/role.middleware.js";
+import { register } from "module";
+
 
 const route: Router = express.Router();
 
 route.post("/register", register);
-route.post("/login", login);
+route.post("/login", logi);
 route.post("/firebase-login", firebaseLogin);
 route.post("/logout", isAuthed, logout);
 
