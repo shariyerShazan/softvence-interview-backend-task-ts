@@ -130,5 +130,38 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
+export const firebaseLogin = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { fullName, email }: { fullName: string; email: string } = req.body;
 
+    if (!fullName || !email) {
+      return res.status(400).json({ message: "Invalid data", success: false });
+    }
+
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = await User.create({
+        fullName,
+        email,
+        password: "firebase_auth",
+      });
+    }
+
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY as string, {
+      expiresIn: "7d",
+    });
+
+    return res
+      .status(200)
+      .cookie("token", token, {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: "none",
+        secure: process.env.NODE_ENV === "production",
+      })
+      .json({ success: true, message: "Login successful", user });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, message: "Login failed", error: err.message });
+  }
+};
 
