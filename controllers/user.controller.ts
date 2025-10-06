@@ -182,3 +182,21 @@ export const logout = async (_: Request, res: Response): Promise<Response> => {
   }
 };
 
+export const getAllVendor = async (_: Request, res: Response): Promise<Response> => {
+  try {
+    const vendors = await User.find({ role: "vendor" });
+    if (!vendors || vendors.length === 0) {
+      return res.status(404).json({
+        message: "No member found",
+        success: false,
+      });
+    }
+    return res.status(200).json({
+      vendors,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed", success: false });
+  }
+};
+
