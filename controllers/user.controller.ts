@@ -70,5 +70,65 @@ export const register = async (req: Request, res: Response): Promise<Response> =
   }
 };
 
+export const login = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { email, password, role }: { email: string; password: string; role: string } = req.body;
+
+    if (!email || !password || !role) {
+      return res.status(404).json({
+        message: "Something is missing",
+      });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({
+        message: "User not found",
+        success: false,
+      });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
+      return res.status(401).json({
+        message: "Password is incorrect",
+        success: false,
+      });
+    }
+
+    if (role !== user.role) {
+      return res.status(401).json({
+        message: "User not available with this role",
+        success: false,
+      });
+    }
+
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY as string, {
+      expiresIn: "7d",
+    });
+
+    return res
+      .status(200)
+      .cookie("token", token, {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: "none",
+        secure: process.env.NODE_ENV === "production",
+      })
+      .json({
+        message: "Login successful",
+        user,
+        success: true,
+      });
+  } catch (err: any) {
+    return res.status(500).json({
+      message: "Login failed",
+      error: err.message,
+      success: false,
+    });
+  }
+};
+
 
 
