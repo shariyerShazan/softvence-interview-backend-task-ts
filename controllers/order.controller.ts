@@ -1,10 +1,15 @@
 import { Request, Response } from "express";
-
 import { Order } from "../models/order.model";
 import { Product } from "../models/product.model";
 import { User } from "../models/user.model";
 
-export const createOrder = async (req: Request, res: Response) => {
+
+interface AuthRequest extends Request {
+    userId?: string; 
+  }
+
+
+export const createOrder = async (req: AuthRequest, res: Response) => {
   try {
     const { products, shippingAddress, paymentMethod } = req.body;
 
@@ -67,7 +72,7 @@ export const createOrder = async (req: Request, res: Response) => {
   }
 };
 
-export const getOrders = async (req: Request, res: Response) => {
+export const getOrders = async (req: AuthRequest, res: Response) => {
   try {
     let orders;
     const user = await User.findById(req.userId);
@@ -104,7 +109,7 @@ export const getOrders = async (req: Request, res: Response) => {
   }
 };
 
-export const updateOrderStatus = async (req: Request, res: Response) => {
+export const updateOrderStatus = async (req: AuthRequest, res: Response) => {
   try {
     const { orderId } = req.params;
     const { status } = req.body;

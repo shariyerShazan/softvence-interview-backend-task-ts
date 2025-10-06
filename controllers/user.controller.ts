@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { User } from "../models/user.model";  // model এর টাইপ আলাদা বানাতে হবে
+import { User } from "../models/user.model"; 
 import dotenv from "dotenv";
 dotenv.config();
 
 interface AuthRequest extends Request {
-  userId?: string; // middleware থেকে আসা userId
+  userId?: string; 
 }
 
 export const register = async (req: Request, res: Response): Promise<Response> => {

@@ -1,7 +1,7 @@
 import express, { Router } from "express";
-import { acceptVendorRequest, firebaseLogin, getAllVendor, login, logout, register, removeVendor, requestForVendor } from "../controllers/user.controller.ts";
-import { isAuthed } from "../middlewares/isAuthed.ts";
-import { isAdmin, isUser } from "../middlewares/role.middleware.ts";
+import { acceptVendorRequest, firebaseLogin, getAllVendor, login, logout, register, removeVendor, requestForVendor } from "../controllers/user.controller";
+import { isAuthed } from "../middlewares/isAuthed";
+import { isAdmin, isUser } from "../middlewares/role.middleware";
 
 
 

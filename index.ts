@@ -3,10 +3,10 @@ import dotenv from "dotenv";
 dotenv.config();
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { connectDB } from "./utils/connectDB.js"; 
-import userRoutes from "./routes/user.routes.js";
-import productRoutes from "./routes/product.routes.js";
-import orderRoutes from "./routes/order.route.js";
+import { connectDB } from "./utils/connectDB";
+import userRoutes from "./routes/user.routes"
+import productRoutes from  "./routes/product.routes"
+import orderRoutes from "./routes/order.routes"
 
 const app: Application = express();
 

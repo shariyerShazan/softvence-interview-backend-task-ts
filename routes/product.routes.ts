@@ -1,7 +1,7 @@
 import express, { Router } from "express";
-import { isAuthed } from "../middlewares/isAuthed.ts";
-import { isVendor } from "../middlewares/role.middleware.ts";
-import { addProduct, deleteProduct, getAllProducts, updateProduct } from "../controllers/product.controller.ts";
+import { isAuthed } from "../middlewares/isAuthed";
+import { isVendor } from "../middlewares/role.middleware";
+import { addProduct, deleteProduct, getAllProducts, updateProduct } from "../controllers/product.controller";
 
 const route: Router = express.Router();
 

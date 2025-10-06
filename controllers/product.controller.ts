@@ -2,7 +2,13 @@ import { Request, Response } from "express";
 // import { AuthRequest } from "../types/express";
 import { Product } from "../models/product.model";
 
-export const addProduct = async (req: Request, res: Response) => {
+
+
+interface AuthRequest extends Request {
+    userId?: string; 
+  }
+
+export const addProduct = async (req: AuthRequest, res: Response) => {
   try {
     const { title, description, price, stock, category, images } = req.body;
 
@@ -36,7 +42,7 @@ export const addProduct = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllProducts = async (req: Request, res: Response) => {
+export const getAllProducts = async (req: AuthRequest, res: Response) => {
   try {
     const products = await Product.find().populate("vendor", "fullName email");
 
@@ -51,7 +57,7 @@ export const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteProduct = async (req: Request, res: Response) => {
+export const deleteProduct = async (req: AuthRequest, res: Response) => {
   try {
     const { productId } = req.params;
     const vendorId = req.userId;
