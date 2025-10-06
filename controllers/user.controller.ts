@@ -200,3 +200,27 @@ export const getAllVendor = async (_: Request, res: Response): Promise<Response>
   }
 };
 
+export const removeVendor = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { vendorId } = req.params;
+    const vendor = await User.findById(vendorId);
+
+    if (!vendor) {
+      return res.status(404).json({
+        message: "Vendor not found",
+        success: false,
+      });
+    }
+
+    vendor.role = "user";
+    await vendor.save();
+
+    return res.status(200).json({
+      message: "Vendor removed",
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed", success: false });
+  }
+};
+
