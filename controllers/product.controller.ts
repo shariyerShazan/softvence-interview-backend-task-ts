@@ -50,3 +50,29 @@ export const getAllProducts = async (req: AuthRequest, res: Response) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const deleteProduct = async (req: AuthRequest, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const vendorId = req.userId;
+    const product = await Product.findOne({ _id: productId, vendor: vendorId });
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    await product.deleteOne();
+
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successfully",
+    });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
