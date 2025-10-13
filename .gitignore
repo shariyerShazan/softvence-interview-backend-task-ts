@@ -26,19 +26,18 @@ jspm_packages/
 
 # Output of 'npm pack'
 *.tgz
+temp_auto_push.bat
 
 # Yarn Integrity file
 .yarn-integrity
 
 # dotenv environment variables file
-.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
 # Editor-specific files
-.vscode/
 .idea/
 *.sublime-workspace
 *.sublime-project
@@ -55,4 +54,5 @@ Thumbs.db
 # Sensitive files (e.g., database backups, upload directories)
 # You might want to add specific paths here depending on your project
 # uploads/
-# db_backups/
+# db_backups/.gitignore
+temp_interactive_push.bat
