@@ -26,13 +26,11 @@ jspm_packages/
 
 # Output of 'npm pack'
 *.tgz
-temp_auto_push.bat
 
 # Yarn Integrity file
 .yarn-integrity
 
 # dotenv environment variables file
-.env.local
 .env.development.local
 .env.test.local
 .env.production.local
@@ -55,5 +53,4 @@ Thumbs.db
 # You might want to add specific paths here depending on your project
 # uploads/
 # db_backups/.gitignore
-temp_interactive_push.bat
-branch_structure.json
+config.bat
